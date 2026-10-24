@@ -1,0 +1,14 @@
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.hypothesis/
+dist/
+results/
+model.toml
+/models/
+claude-*-result.json
+.env
+*.egg-info/

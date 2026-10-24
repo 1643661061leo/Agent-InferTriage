@@ -1,0 +1,249 @@
+{
+  "$defs": {
+    "Clock": {
+      "additionalProperties": false,
+      "properties": {
+        "clock_id": {
+          "title": "Clock Id",
+          "type": "string"
+        },
+        "aligned_to": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Aligned To"
+        },
+        "offset_ns": {
+          "default": 0,
+          "title": "Offset Ns",
+          "type": "integer"
+        },
+        "uncertainty_ns": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Uncertainty Ns",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "clock_id"
+      ],
+      "title": "Clock",
+      "type": "object"
+    },
+    "Source": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "pattern": "^[A-Za-z0-9_.-]+$",
+          "title": "Source Id",
+          "type": "string"
+        },
+        "path": {
+          "title": "Path",
+          "type": "string"
+        },
+        "format": {
+          "default": "text",
+          "title": "Format",
+          "type": "string"
+        },
+        "version": {
+          "default": "",
+          "title": "Version",
+          "type": "string"
+        },
+        "captured_at_ns": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Captured At Ns"
+        },
+        "endpoint_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Endpoint Id"
+        }
+      },
+      "required": [
+        "source_id",
+        "path"
+      ],
+      "title": "Source",
+      "type": "object"
+    },
+    "Workload": {
+      "additionalProperties": false,
+      "properties": {
+        "workload_id": {
+          "title": "Workload Id",
+          "type": "string"
+        },
+        "name": {
+          "default": "",
+          "title": "Name",
+          "type": "string"
+        },
+        "start_ns": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Start Ns"
+        },
+        "end_ns": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "End Ns"
+        },
+        "clock_domain": {
+          "default": "local",
+          "title": "Clock Domain",
+          "type": "string"
+        },
+        "start_boundary": {
+          "default": "unspecified",
+          "title": "Start Boundary",
+          "type": "string"
+        },
+        "end_boundary": {
+          "default": "unspecified",
+          "title": "End Boundary",
+          "type": "string"
+        },
+        "completion_status": {
+          "default": "unknown",
+          "enum": [
+            "completed",
+            "failed",
+            "cancelled",
+            "unknown"
+          ],
+          "title": "Completion Status",
+          "type": "string"
+        },
+        "graph_complete": {
+          "default": false,
+          "title": "Graph Complete",
+          "type": "boolean"
+        },
+        "graph_provenance": {
+          "default": "declared",
+          "enum": [
+            "observed",
+            "declared",
+            "inferred"
+          ],
+          "title": "Graph Provenance",
+          "type": "string"
+        },
+        "cross_layer_links_verified": {
+          "default": false,
+          "title": "Cross Layer Links Verified",
+          "type": "boolean"
+        },
+        "clock_alignment_verified": {
+          "default": false,
+          "title": "Clock Alignment Verified",
+          "type": "boolean"
+        },
+        "source_refs": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Source Refs",
+          "type": "array"
+        }
+      },
+      "required": [
+        "workload_id"
+      ],
+      "title": "Workload",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "workloads": {
+      "items": {
+        "$ref": "#/$defs/Workload"
+      },
+      "title": "Workloads",
+      "type": "array"
+    },
+    "sources": {
+      "items": {
+        "$ref": "#/$defs/Source"
+      },
+      "title": "Sources",
+      "type": "array"
+    },
+    "clock_domains": {
+      "items": {
+        "$ref": "#/$defs/Clock"
+      },
+      "title": "Clock Domains",
+      "type": "array"
+    },
+    "events_file": {
+      "default": "events.jsonl",
+      "title": "Events File",
+      "type": "string"
+    },
+    "content_policy": {
+      "default": "metadata",
+      "enum": [
+        "metadata",
+        "local",
+        "model_allowed"
+      ],
+      "title": "Content Policy",
+      "type": "string"
+    }
+  },
+  "required": [
+    "workloads"
+  ],
+  "title": "Manifest",
+  "type": "object"
+}

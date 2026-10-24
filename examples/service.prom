@@ -1,0 +1,14 @@
+# Synthetic fixtures, not measurements from a real vLLM service.
+# HELP vllm:num_requests_waiting Synthetic queued request count
+# TYPE vllm:num_requests_waiting gauge
+vllm:num_requests_waiting{model_name="fixture"} 20
+# TYPE vllm:prefix_cache_hits_total counter
+vllm:prefix_cache_hits_total{model_name="fixture"} 100
+# TYPE vllm:prefix_cache_queries_total counter
+vllm:prefix_cache_queries_total{model_name="fixture"} 1000
+# TYPE vllm:request_queue_time_seconds histogram
+vllm:request_queue_time_seconds_bucket{le="0.5"} 10
+vllm:request_queue_time_seconds_bucket{le="5"} 90
+vllm:request_queue_time_seconds_bucket{le="+Inf"} 100
+vllm:request_queue_time_seconds_count 100
+vllm:request_queue_time_seconds_sum 300

@@ -1,0 +1,976 @@
+{
+  "$defs": {
+    "Activity": {
+      "additionalProperties": false,
+      "properties": {
+        "record_id": {
+          "title": "Record Id",
+          "type": "string"
+        },
+        "workload_id": {
+          "title": "Workload Id",
+          "type": "string"
+        },
+        "source_refs": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Source Refs",
+          "type": "array"
+        },
+        "record_type": {
+          "const": "activity",
+          "default": "activity",
+          "title": "Record Type",
+          "type": "string"
+        },
+        "activity_id": {
+          "title": "Activity Id",
+          "type": "string"
+        },
+        "scope_span_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Scope Span Id"
+        },
+        "duration_ns": {
+          "minimum": 0,
+          "title": "Duration Ns",
+          "type": "integer"
+        },
+        "release_ns": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Release Ns",
+          "type": "integer"
+        },
+        "stages": {
+          "items": {
+            "enum": [
+              "orchestration",
+              "prompt",
+              "cache",
+              "scheduling",
+              "kernel"
+            ],
+            "type": "string"
+          },
+          "title": "Stages",
+          "type": "array"
+        },
+        "clock_domain": {
+          "default": "local",
+          "title": "Clock Domain",
+          "type": "string"
+        },
+        "execution_key": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Execution Key"
+        },
+        "provenance": {
+          "default": "declared",
+          "enum": [
+            "observed",
+            "declared",
+            "inferred"
+          ],
+          "title": "Provenance",
+          "type": "string"
+        }
+      },
+      "required": [
+        "record_id",
+        "workload_id",
+        "activity_id",
+        "duration_ns"
+      ],
+      "title": "Activity",
+      "type": "object"
+    },
+    "CacheSample": {
+      "additionalProperties": false,
+      "properties": {
+        "record_id": {
+          "title": "Record Id",
+          "type": "string"
+        },
+        "workload_id": {
+          "title": "Workload Id",
+          "type": "string"
+        },
+        "source_refs": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Source Refs",
+          "type": "array"
+        },
+        "record_type": {
+          "const": "cache",
+          "default": "cache",
+          "title": "Record Type",
+          "type": "string"
+        },
+        "cache_type": {
+          "title": "Cache Type",
+          "type": "string"
+        },
+        "scope": {
+          "title": "Scope",
+          "type": "string"
+        },
+        "unit": {
+          "title": "Unit",
+          "type": "string"
+        },
+        "hits": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Hits"
+        },
+        "queries": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Queries"
+        },
+        "occupancy": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Occupancy"
+        },
+        "capacity": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Capacity"
+        },
+        "sample_kind": {
+          "default": "delta",
+          "enum": [
+            "delta",
+            "gauge",
+            "cumulative"
+          ],
+          "title": "Sample Kind",
+          "type": "string"
+        },
+        "interval_start_ns": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Interval Start Ns"
+        },
+        "interval_end_ns": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Interval End Ns"
+        },
+        "round_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Round Id"
+        },
+        "agent_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Agent Id"
+        },
+        "request_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Request Id"
+        },
+        "attempt_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Attempt Id"
+        }
+      },
+      "required": [
+        "record_id",
+        "workload_id",
+        "cache_type",
+        "scope",
+        "unit"
+      ],
+      "title": "CacheSample",
+      "type": "object"
+    },
+    "ContentBlock": {
+      "additionalProperties": false,
+      "properties": {
+        "record_id": {
+          "title": "Record Id",
+          "type": "string"
+        },
+        "workload_id": {
+          "title": "Workload Id",
+          "type": "string"
+        },
+        "source_refs": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Source Refs",
+          "type": "array"
+        },
+        "record_type": {
+          "const": "content",
+          "default": "content",
+          "title": "Record Type",
+          "type": "string"
+        },
+        "request_id": {
+          "title": "Request Id",
+          "type": "string"
+        },
+        "attempt_id": {
+          "default": "0",
+          "title": "Attempt Id",
+          "type": "string"
+        },
+        "role": {
+          "title": "Role",
+          "type": "string"
+        },
+        "text": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Text"
+        },
+        "token_ids": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "integer"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Token Ids"
+        },
+        "token_count": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Token Count"
+        },
+        "tokenizer_ref": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Tokenizer Ref"
+        },
+        "template_ref": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Template Ref"
+        },
+        "content_key": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Content Key"
+        }
+      },
+      "required": [
+        "record_id",
+        "workload_id",
+        "request_id",
+        "role"
+      ],
+      "title": "ContentBlock",
+      "type": "object"
+    },
+    "CostItem": {
+      "additionalProperties": false,
+      "properties": {
+        "record_id": {
+          "title": "Record Id",
+          "type": "string"
+        },
+        "workload_id": {
+          "title": "Workload Id",
+          "type": "string"
+        },
+        "source_refs": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Source Refs",
+          "type": "array"
+        },
+        "record_type": {
+          "const": "cost",
+          "default": "cost",
+          "title": "Record Type",
+          "type": "string"
+        },
+        "owner_event": {
+          "title": "Owner Event",
+          "type": "string"
+        },
+        "amount": {
+          "anyOf": [
+            {
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "title": "Amount"
+        },
+        "currency": {
+          "title": "Currency",
+          "type": "string"
+        },
+        "method": {
+          "default": "estimated",
+          "enum": [
+            "billed",
+            "estimated"
+          ],
+          "title": "Method",
+          "type": "string"
+        },
+        "basis": {
+          "default": "primary",
+          "enum": [
+            "primary",
+            "alternative",
+            "breakdown"
+          ],
+          "title": "Basis",
+          "type": "string"
+        },
+        "pricing_ref": {
+          "title": "Pricing Ref",
+          "type": "string"
+        }
+      },
+      "required": [
+        "record_id",
+        "workload_id",
+        "owner_event",
+        "amount",
+        "currency",
+        "pricing_ref"
+      ],
+      "title": "CostItem",
+      "type": "object"
+    },
+    "Dependency": {
+      "additionalProperties": false,
+      "properties": {
+        "record_id": {
+          "title": "Record Id",
+          "type": "string"
+        },
+        "workload_id": {
+          "title": "Workload Id",
+          "type": "string"
+        },
+        "source_refs": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Source Refs",
+          "type": "array"
+        },
+        "record_type": {
+          "const": "dependency",
+          "default": "dependency",
+          "title": "Record Type",
+          "type": "string"
+        },
+        "from_id": {
+          "title": "From Id",
+          "type": "string"
+        },
+        "to_id": {
+          "title": "To Id",
+          "type": "string"
+        },
+        "min_lag_ns": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Min Lag Ns",
+          "type": "integer"
+        },
+        "provenance": {
+          "default": "declared",
+          "enum": [
+            "observed",
+            "declared",
+            "inferred"
+          ],
+          "title": "Provenance",
+          "type": "string"
+        }
+      },
+      "required": [
+        "record_id",
+        "workload_id",
+        "from_id",
+        "to_id"
+      ],
+      "title": "Dependency",
+      "type": "object"
+    },
+    "Span": {
+      "additionalProperties": false,
+      "properties": {
+        "record_id": {
+          "title": "Record Id",
+          "type": "string"
+        },
+        "workload_id": {
+          "title": "Workload Id",
+          "type": "string"
+        },
+        "source_refs": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Source Refs",
+          "type": "array"
+        },
+        "record_type": {
+          "const": "span",
+          "default": "span",
+          "title": "Record Type",
+          "type": "string"
+        },
+        "span_id": {
+          "title": "Span Id",
+          "type": "string"
+        },
+        "parent_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Parent Id"
+        },
+        "name": {
+          "default": "",
+          "title": "Name",
+          "type": "string"
+        },
+        "operation": {
+          "default": "custom",
+          "title": "Operation",
+          "type": "string"
+        },
+        "observation_level": {
+          "anyOf": [
+            {
+              "enum": [
+                "L0",
+                "L2",
+                "L3"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Observation Level"
+        },
+        "stages": {
+          "items": {
+            "enum": [
+              "orchestration",
+              "prompt",
+              "cache",
+              "scheduling",
+              "kernel"
+            ],
+            "type": "string"
+          },
+          "title": "Stages",
+          "type": "array"
+        },
+        "start_ns": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Start Ns"
+        },
+        "end_ns": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "End Ns"
+        },
+        "clock_domain": {
+          "default": "local",
+          "title": "Clock Domain",
+          "type": "string"
+        },
+        "agent_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Agent Id"
+        },
+        "round_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Round Id"
+        },
+        "stage_occurrence_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Stage Occurrence Id"
+        },
+        "request_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Request Id"
+        },
+        "request_refs": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Request Refs",
+          "type": "array"
+        },
+        "attempt_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Attempt Id"
+        },
+        "engine_iteration_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Engine Iteration Id"
+        },
+        "batch_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Batch Id"
+        },
+        "kernel_invocation_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Kernel Invocation Id"
+        },
+        "attributes": {
+          "additionalProperties": true,
+          "title": "Attributes",
+          "type": "object"
+        }
+      },
+      "required": [
+        "record_id",
+        "workload_id",
+        "span_id"
+      ],
+      "title": "Span",
+      "type": "object"
+    },
+    "Usage": {
+      "additionalProperties": false,
+      "properties": {
+        "record_id": {
+          "title": "Record Id",
+          "type": "string"
+        },
+        "workload_id": {
+          "title": "Workload Id",
+          "type": "string"
+        },
+        "source_refs": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Source Refs",
+          "type": "array"
+        },
+        "record_type": {
+          "const": "usage",
+          "default": "usage",
+          "title": "Record Type",
+          "type": "string"
+        },
+        "request_id": {
+          "title": "Request Id",
+          "type": "string"
+        },
+        "attempt_id": {
+          "default": "0",
+          "title": "Attempt Id",
+          "type": "string"
+        },
+        "span_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Span Id"
+        },
+        "agent_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Agent Id"
+        },
+        "round_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Round Id"
+        },
+        "provider": {
+          "default": "unknown",
+          "title": "Provider",
+          "type": "string"
+        },
+        "model": {
+          "default": "unknown",
+          "title": "Model",
+          "type": "string"
+        },
+        "input_tokens": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Input Tokens"
+        },
+        "output_tokens": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Output Tokens"
+        },
+        "cache_read_tokens": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cache Read Tokens"
+        },
+        "cache_write_tokens": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cache Write Tokens"
+        },
+        "reasoning_tokens": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reasoning Tokens"
+        },
+        "usage_status": {
+          "default": "reported",
+          "enum": [
+            "reported",
+            "estimated",
+            "unknown"
+          ],
+          "title": "Usage Status",
+          "type": "string"
+        },
+        "raw_usage": {
+          "additionalProperties": true,
+          "title": "Raw Usage",
+          "type": "object"
+        },
+        "normalized_semantics": {
+          "default": "inclusive_v1",
+          "enum": [
+            "inclusive_v1",
+            "unknown"
+          ],
+          "title": "Normalized Semantics",
+          "type": "string"
+        }
+      },
+      "required": [
+        "record_id",
+        "workload_id",
+        "request_id"
+      ],
+      "title": "Usage",
+      "type": "object"
+    }
+  },
+  "anyOf": [
+    {
+      "$ref": "#/$defs/Span"
+    },
+    {
+      "$ref": "#/$defs/Activity"
+    },
+    {
+      "$ref": "#/$defs/Dependency"
+    },
+    {
+      "$ref": "#/$defs/Usage"
+    },
+    {
+      "$ref": "#/$defs/CacheSample"
+    },
+    {
+      "$ref": "#/$defs/CostItem"
+    },
+    {
+      "$ref": "#/$defs/ContentBlock"
+    }
+  ]
+}

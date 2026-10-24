@@ -1,0 +1,241 @@
+{
+  "$defs": {
+    "Finding": {
+      "additionalProperties": false,
+      "properties": {
+        "finding_id": {
+          "title": "Finding Id",
+          "type": "string"
+        },
+        "rule_id": {
+          "title": "Rule Id",
+          "type": "string"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        },
+        "scope_refs": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Scope Refs",
+          "type": "array"
+        },
+        "evidence_refs": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence Refs",
+          "type": "array"
+        },
+        "metric_refs": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Metric Refs",
+          "type": "array"
+        },
+        "owner_layers": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Owner Layers",
+          "type": "array"
+        },
+        "evidence_level": {
+          "default": "observed",
+          "title": "Evidence Level",
+          "type": "string"
+        },
+        "observation_levels": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Observation Levels",
+          "type": "array"
+        },
+        "confidence_reason": {
+          "title": "Confidence Reason",
+          "type": "string"
+        },
+        "counter_evidence": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Counter Evidence",
+          "type": "array"
+        },
+        "unknowns": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Unknowns",
+          "type": "array"
+        },
+        "benefit": {
+          "additionalProperties": true,
+          "title": "Benefit",
+          "type": "object"
+        },
+        "quality_risk": {
+          "default": "Task correctness must be checked before changing behavior.",
+          "title": "Quality Risk",
+          "type": "string"
+        },
+        "next_check": {
+          "title": "Next Check",
+          "type": "string"
+        }
+      },
+      "required": [
+        "finding_id",
+        "rule_id",
+        "title",
+        "scope_refs",
+        "evidence_refs",
+        "owner_layers",
+        "confidence_reason",
+        "next_check"
+      ],
+      "title": "Finding",
+      "type": "object"
+    },
+    "Metric": {
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "default": null,
+          "title": "Value"
+        },
+        "unit": {
+          "title": "Unit",
+          "type": "string"
+        },
+        "status": {
+          "default": "unknown",
+          "enum": [
+            "reported",
+            "derived",
+            "estimated",
+            "unknown",
+            "not_applicable"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "method": {
+          "default": "",
+          "title": "Method",
+          "type": "string"
+        },
+        "scope": {
+          "default": "",
+          "title": "Scope",
+          "type": "string"
+        },
+        "source_refs": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Source Refs",
+          "type": "array"
+        },
+        "reason": {
+          "default": "",
+          "title": "Reason",
+          "type": "string"
+        },
+        "known_subtotal": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Known Subtotal"
+        },
+        "unknown_count": {
+          "default": 0,
+          "title": "Unknown Count",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "unit"
+      ],
+      "title": "Metric",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "workloads": {
+      "items": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Workloads",
+      "type": "array"
+    },
+    "metrics": {
+      "additionalProperties": {
+        "$ref": "#/$defs/Metric"
+      },
+      "title": "Metrics",
+      "type": "object"
+    },
+    "findings": {
+      "items": {
+        "$ref": "#/$defs/Finding"
+      },
+      "title": "Findings",
+      "type": "array"
+    },
+    "evidence_index": {
+      "additionalProperties": true,
+      "title": "Evidence Index",
+      "type": "object"
+    },
+    "config_digest": {
+      "title": "Config Digest",
+      "type": "string"
+    },
+    "warnings": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Warnings",
+      "type": "array"
+    },
+    "service_metrics": {
+      "items": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Service Metrics",
+      "type": "array"
+    }
+  },
+  "required": [
+    "workloads",
+    "metrics",
+    "findings",
+    "evidence_index",
+    "config_digest",
+    "warnings"
+  ],
+  "title": "AnalysisResult",
+  "type": "object"
+}

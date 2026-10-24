@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0",
+  "workloads": [
+    {
+      "workload_id": "synthetic-three-rounds",
+      "name": "Synthetic three-round agent (NOT measured)",
+      "start_ns": 0,
+      "end_ns": 30000000000,
+      "clock_domain": "local",
+      "graph_complete": false,
+      "graph_provenance": "declared",
+      "cross_layer_links_verified": false,
+      "clock_alignment_verified": false,
+      "source_refs": [
+        "synthetic:hand-specified"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "source_id": "service",
+      "path": "source-service.prom",
+      "format": "prometheus-text",
+      "version": "synthetic-unverified-engine",
+      "captured_at_ns": 1792720800000000000,
+      "endpoint_id": "synthetic-engine"
+    }
+  ],
+  "clock_domains": [
+    {
+      "clock_id": "local",
+      "aligned_to": null,
+      "offset_ns": 0,
+      "uncertainty_ns": 0
+    }
+  ],
+  "events_file": "events.jsonl",
+  "content_policy": "metadata"
+}

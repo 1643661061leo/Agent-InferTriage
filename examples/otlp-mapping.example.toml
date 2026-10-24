@@ -1,0 +1,10 @@
+exporter_version = "replace-with-your-exporter-and-semantic-convention-version"
+
+[attributes]
+agent_id = "infertriage.agent_id"
+round_id = "infertriage.workflow_round_id"
+attempt_id = "infertriage.attempt_id"
+stages = "infertriage.stages"
+observation_level = "infertriage.observation_level"
+# operation = "your.operation"
+# request_id = "your.request_id"
